@@ -1,7 +1,7 @@
 // import { useEffect } from "react";
-import { FooterHome } from "../../../app/components/home/footer";
-import { HeaderHome } from "../../../app/components/home/header";
-import Part8 from "../../../app/components/home/part8";
+import { FooterHome } from "../../components/home/footer";
+import { HeaderHome } from "../../components/home/header";
+import Part8 from "../../components/home/part8";
 export default function Layout({ children }: { children: React.ReactNode }) {
 
   

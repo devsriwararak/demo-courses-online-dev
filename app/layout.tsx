@@ -1,9 +1,8 @@
-// ต้องการใช้งาน 2 ภาษา
-
 // app/layout.tsx
+
 import { Inter } from "next/font/google";
 import "./globals.css";
-import RecoilProvider from "./recoilProvider"; // นำเข้า RecoilProvider
+import RecoilProvider from "./recoilProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,12 +18,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body >
-        <RecoilProvider>{children}</RecoilProvider>
-      </body>
+    <html lang="th">
+      <body><RecoilProvider>{children}</RecoilProvider></body>
     </html>
   );
 }
-
-// app/[locale]/layout.tsx ต้องเป็นยังไง

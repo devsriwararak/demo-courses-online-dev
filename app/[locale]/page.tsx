@@ -1,11 +1,15 @@
 // app/[locale]/page.tsx
-import { useTranslations } from "next-intl";
 
+
+import {useTranslations} from 'next-intl';
+import {Link} from '@/i18n/routing';
+ 
 export default function HomePage() {
-  const t = useTranslations();
+  const t = useTranslations('');
   return (
-    <main>
-        <p>{t("welcome")}</p>
-    </main>
+    <div>
+      <h1>{t('welcome')}</h1>
+      <Link href="/home">{t('description')}</Link>
+    </div>
   );
 }
