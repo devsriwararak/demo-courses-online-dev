@@ -23,6 +23,8 @@ import {
 } from "@material-tailwind/react";
 import axios from "axios";
 import CryptoJS from "crypto-js";
+import Cookies from "js-cookie";
+
 
 
 interface AppbarComponentProps {
@@ -74,7 +76,10 @@ const AppbarComponent: React.FC<AppbarComponentProps> = ({
         sessionStorage.removeItem("login");
         localStorage.removeItem("Token");
         localStorage.removeItem("Status");
-        router.push("/");
+                // ลบ Cookies
+                Cookies.remove("authToken", { path: "/" });
+                Cookies.remove("status", { path: "/" });
+                window.location.reload(); 
       }
     } catch (error) {
       console.log(error);

@@ -50,7 +50,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <div className=" bg-gray-200 flex-grow" >
       {children}
       </div>
-      <UserFooter />
+      {/* <UserFooter /> */}
     </div>
   );
 }

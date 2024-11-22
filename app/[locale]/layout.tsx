@@ -17,6 +17,9 @@ export default async function LocaleLayout({
     notFound();
   }
 
+  console.log({locale});
+  
+
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
       {children}

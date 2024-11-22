@@ -14,7 +14,7 @@ import Image from "next/image";
 import Link from "next/link";
 import axios from "axios";
 import CryptoJS from "crypto-js";
-
+import Cookies from "js-cookie";
 
 const navItems = [
   { href: "/user/shopcourse", label: "เลือกซื้อคอร์สเรียน" },
@@ -125,6 +125,8 @@ export function UserHeader() {
   };
   const userId = decryptData(localStorage.getItem("Id") || "");
 
+  // ต้องการลบ cookie  authToken และ status
+
   const handleLogout = async () => {
     try {
       const data = {
@@ -145,7 +147,10 @@ export function UserHeader() {
         sessionStorage.removeItem("login");
         localStorage.removeItem("Token");
         localStorage.removeItem("Status");
-        router.push("/home");
+        // ลบ Cookies
+        Cookies.remove("authToken", { path: "/" });
+        Cookies.remove("status", { path: "/" });
+        window.location.reload(); 
       }
     } catch (error) {
       console.log(error);
@@ -201,7 +206,7 @@ export function UserHeader() {
                   className="hidden lg:inline-block "
                   onClick={handleLogout}
                 >
-                  ออกจากระบบ 
+                  ออกจากระบบ
                 </Button>
               ) : (
                 <HeaderButton href="/login" variant="gradient">

@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useRecoilValue } from "recoil";
 import { userIdState, numberState } from "@/store/store"; // นำเข้า atom ที่สร้างไว้
 import Template from "./template";
+import Cookies from 'js-cookie';
 
 interface MyJwtPayload extends JwtPayload {
   username: string;
@@ -59,9 +60,14 @@ const LoginPage: React.FC = () => {
           localStorage.setItem("Id", encryptData(decoded.id.toString()));
           sessionStorage.setItem("login", encryptData(decoded.username));
 
+
           let redirectPath = "/";
 
           const status = parseInt(decryptData(localStorage.getItem("Status") || ""));
+
+          
+          Cookies.set('authToken', token, { expires: 1, secure: true });
+          Cookies.set('status', String(status), { expires: 1, secure: true });
 
           if (status === 2) {
             redirectPath = "/super";
@@ -81,10 +87,16 @@ const LoginPage: React.FC = () => {
             }
           }
 
-          // setTimeout(() => {
-          //   router.push(redirectPath);
-          // }, 500);
-          router.push(redirectPath);
+          console.log("Status:", status);
+console.log("Redirect Path:", redirectPath);
+console.log("User ID:", userId);
+console.log("Number:", number);
+
+          setTimeout(() => {
+            router.push(redirectPath);
+          }, 500);
+
+          // router.push(redirectPath);
         } else {
           toast.error("Error: Token not found");
         }
@@ -96,6 +108,7 @@ const LoginPage: React.FC = () => {
     [user, password, router, userId, number]
   );
 
+  
   return (
     <div className="bg-gray-200 h-screen flex   justify-center items-center  px-10 md:px-64">
     <ToastContainer autoClose={3000} theme="colored" />

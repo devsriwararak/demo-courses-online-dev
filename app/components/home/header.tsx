@@ -83,7 +83,7 @@ const HeaderButton: React.FC<HeaderButtonProps> = ({
   );
 };
 
-export function HeaderHome() {
+export function HeaderHome({locale} : {locale : string}) {
   const [openNav, setOpenNav] = useState(false);
   const router = useRouter();
   const currentPath = usePathname();
@@ -136,6 +136,7 @@ export function HeaderHome() {
 
   return (
     <div className="max-h-[768px]">
+      testxx : {locale}
       <Navbar
         className="sticky min-w-full  top-0 z-10 h-max    rounded-none  lg:px-60  mx-auto container "
         style={{
@@ -170,6 +171,7 @@ export function HeaderHome() {
                 <HeaderButton href="/login" variant="gradient">
                   เข้าสู่ระบบ
                 </HeaderButton>
+                <Link href="/login">xxx</Link>
               </div>
               <IconButton
                 variant="text"

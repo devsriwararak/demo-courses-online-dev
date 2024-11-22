@@ -1,14 +1,11 @@
 import HomeUser from "../components/user/homeUser"
+import { redirect } from 'next/navigation';
 
 
 
 const UserPage: React.FC = () => {
-
-    return (
-        <div >
-            <HomeUser/>
-        </div>
-    )
+    redirect(`/user/shopcourse`);
+  
 }
 
 export default UserPage

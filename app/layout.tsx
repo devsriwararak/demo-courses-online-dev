@@ -11,15 +11,20 @@ export const metadata: Metadata = {
   title: "ระบบคอร์สเรียน (เฉพาะธุรกิจ)",
   description: "ระบบการเรียนการสอนออนไลน์ที่ออกแบบมาเฉพาะสำหรับธุรกิจ",
 };
-
 export default function RootLayout({
   children,
-}: Readonly<{
+  params,
+}: {
   children: React.ReactNode;
-}>) {
+  params?: { locale?: string };
+}) {
+  const locale = params?.locale || "th"; 
+  
   return (
-    <html lang="th">
-      <body><RecoilProvider>{children}</RecoilProvider></body>
+    <html lang={locale} className={inter.className}>
+      <body>
+        <RecoilProvider>{children}</RecoilProvider>
+      </body>
     </html>
   );
 }
