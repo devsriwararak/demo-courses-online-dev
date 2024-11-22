@@ -213,7 +213,7 @@ const AddEditModalReview: React.FC<AddEditModalReviewProps> = ({
           {dataEdit && (
             <div className="w-full lg:w-8/12 h-[400px] flex flex-col gap-4 overflow-auto p-4 border border-gray-300 rounded-md shadow-sm">
               <Typography variant="h6" className="text-center">
-                {formData.type == 1 ? "ภาพรีวิว" : "ภาพสัมมนา" || ""}
+                {formData.type == 1 ? "ภาพรีวิว" : "ภาพสัมมนา" }
               </Typography>
               <div className="grid grid-cols-2 gap-4">
                 {reviewImages?.map((imageObj, index) => (
