@@ -11,12 +11,12 @@ const HomePage: React.FC = () => {
   return (
     <div style={{ margin: 0, padding: 0 }}>
       <Part1 />
-      {/* <Part2 />
+      <Part2 />
       <Part3 />
       <Part4 />
       <Part5 />
       <Part6 />
-      <Part7 /> */}
+      <Part7 />
     </div>
   );
 };
