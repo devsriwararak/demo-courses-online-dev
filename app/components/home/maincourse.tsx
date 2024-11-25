@@ -1,7 +1,7 @@
 "use client";
 import { Input, Option, Radio, Select } from "@material-tailwind/react";
 import axios from "axios";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
@@ -31,6 +31,8 @@ const CoursesPage: React.FC = () => {
   const [selectType, setSelectType] = useState<any>("");
   const [selectTypeName, setSelectTypeName] = useState<any>("");
   const locale = useLocale()
+  const t = useTranslations("CoursesPage");
+
 
   // ฟังก์ชันดึงข้อมูลจาก API โดยรับชนิดข้อมูลที่ชัดเจน
   const fetchData = async (): Promise<{ data: Course[] } | undefined> => {
@@ -111,30 +113,30 @@ const CoursesPage: React.FC = () => {
       {/* lg:w-3/12 2xl:w-2/12 */}
       <div className="w-full md:w-4/12 lg:w-1/5 p-4  bg-white shadow-md rounded-lg mb-5 md:mb-0 md:mr-4">
         <div className="flex flex-row items-center lg:items-start justify-between md:flex-col mb-3 gap-3">
-          <h2 className="font-light text-lg">คอร์เรียนใหม่</h2>
+          <h2 className="font-light text-lg">{t('left.title_1')}</h2>
           <h2 className="text-indigo-800 text-sm font-light">
-            คอร์เรียนทั้งหมด 
+          {t('left.title_2')} 
           </h2>
         </div>
         <hr className="border border-gray-200 my-1" />
         <div className="flex justify-between mb-2">
-          <h2 className="text-lg md:text-sm font-bold ">ตัวกรองคอร์สเรียน</h2>
+          <h2 className="text-lg md:text-sm font-bold ">{t('left.title_3')}</h2>
           <button
             className="text-lg md:text-sm text-red-500 font-light "
             onClick={resetFilters}
           >
-            ล้างตัวกรอง
+            {t('left.title_4')}
           </button>
         </div>
 
         {/* Radio Buttons for Price Filter */}
 
-        <small className="text-gray-500"> ราคา</small>
+        <small className="text-gray-500"> {t('left.title_5')}</small>
         <div className="flex flex-row md:flex-col ">
           <Radio
             crossOrigin="anonymous"
             name="type"
-            label="ราคา น้อย-มาก"
+            label={t('left.title_6')}
             value="1"
             checked={filterPrice === 1}
             onChange={() => handleFilterChange(1)}
@@ -145,7 +147,7 @@ const CoursesPage: React.FC = () => {
           <Radio
             crossOrigin="anonymous"
             name="type"
-            label="ราคา มาก-น้อย"
+            label={t('left.title_7')}
             value="2"
             checked={filterPrice === 2}
             onChange={() => handleFilterChange(2)}
@@ -156,7 +158,7 @@ const CoursesPage: React.FC = () => {
         <hr className="border border-gray-200 my-2" />
 
         <div className="">
-          <small className="text-gray-500"> หมวดหมู่</small>
+          <small className="text-gray-500"> {t('left.title_8')}</small>
 
           <div className="mt-3 ">
             <select
@@ -195,14 +197,14 @@ const CoursesPage: React.FC = () => {
 
         <div className="flex flex-col md:flex-row items-center justify-between mt-5 ">
           <div>
-            <p className="text-xl md:text-2xl font-bold">
-              คอร์สเรียน{" "}
+            <p className="text-xl md:text-2xl font-bold flex gap-2">
+              {t('title_1')}
               <span className="text-indigo-800 font-bold">
-                {selectTypeName ? selectTypeName : "ทั้งหมด"}
+                {selectTypeName ? selectTypeName : t('title_2')}
               </span>
             </p>
             <p className="mb-4 text-sm text-gray-700">
-              ผลลัพท์การค้นหา <span>{coursesData.length} คอร์ส </span>
+            {t('dec_1')} <span>{coursesData.length} {t('dec_2')} </span>
             </p>
           </div>
         </div>

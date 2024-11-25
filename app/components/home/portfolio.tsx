@@ -1,6 +1,6 @@
 "use client";
 import axios from "axios";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
@@ -21,6 +21,8 @@ const PortfolioPage = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [type, setType] = useState(0);
   const locale = useLocale()
+  const t = useTranslations("PortfolioPage");
+
 
   const fetchData = async () => {
     const requestData = {
@@ -72,7 +74,7 @@ const PortfolioPage = () => {
             }`}
             style={{ maxWidth: "150px" }} // จำกัดความกว้างของปุ่ม
           >
-            สัมมนา 
+            {t('btn_1')} 
           </button>
           <button
             onClick={() => setType(1)}
@@ -83,18 +85,18 @@ const PortfolioPage = () => {
             }`}
             style={{ maxWidth: "150px" }} // จำกัดความกว้างของปุ่ม
           >
-            รีวิว
+             {t('btn_2')} 
           </button>
         </div>
         <div className="flex flex-col md:flex-row items-center justify-between mt-5 md:mt-10">
           <div className="text-center md:text-left">
             <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
-              กิจกรรม <span className="text-indigo-800 font-bold">ทั้งหมด</span>
+            {t('title_1')} <span className="text-indigo-800 font-bold">{t('btn_2')}</span>
             </h1>
             <p className="text-gray-600">
-              ผลลัพท์การค้นหา{" "}
+            {t('dec_1')}{" "}
               <span className="font-semibold">
-                {data?.data?.length || 0} กิจกรรม
+                {data?.data?.length || 0} {t('dec_2')}
               </span>
             </p>
           </div>

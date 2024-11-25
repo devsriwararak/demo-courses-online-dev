@@ -1,14 +1,18 @@
 "use client";
 import { Button } from "@material-tailwind/react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import { FaCheckSquare } from "react-icons/fa";
 import { VscArrowRight, VscGraphLine, VscServerEnvironment, VscVmRunning, VscWand } from "react-icons/vsc";
+import * as Icons from "react-icons/vsc";
+
 
 export default function Page() {
   const image_1 = "/bycourse_1.webp";
   const locale = useLocale()
+  const t = useTranslations("BycoursePage");
+  const results = t.raw("section_2.results");
 
   const data = [
     {
@@ -44,6 +48,7 @@ export default function Page() {
       link:`/${locale}/home/course`
     },
   ];
+
   return (
     <div className="py-10">
       <div className="flex flex-col lg:flex-row gap-8 items-center justify-center container mx-auto  px-8 lg:px-0">
@@ -59,48 +64,48 @@ export default function Page() {
           </div>
         </section>
         <section className="w-full">
-          <h1>วิธีการซื้อคอร์สเรียน ใน 5 นาที</h1>
+          <h1>{t('section_1.title')}</h1>
           <p className="text-base mt-3 text-gray-700">
-            ซื้อคอร์สเรียนสอนเทรดออนไลน์ด้วย QR Code เป็นวิธีที่สะดวกและรวดเร็ว
-            โดยเฉพาะอย่างยิ่งในยุคที่เทคโนโลยีก้าวหน้าอย่างรวดเร็ว
-            แนะนำขั้นตอนในการซื้อคอร์สเรียนอย่างง่าย ๆ ด้วย QR Code พร้อมเพย์
+          {t('section_1.dec')}
           </p>
           <ul className="text-indigo-600 mt-4 flex flex-col gap-2">
             <li className="flex flex-row gap-2 items-center">
               <FaCheckSquare size={20} className="text-indigo-800" />{" "}
-              <p>สแกน QR Code และชำระเงิน</p>
+              <p>{t('section_1.item_1')}</p>
             </li>
             <li className="flex flex-row gap-2 items-center">
               <FaCheckSquare size={20} className="text-indigo-800" />{" "}
-              <p>ส่งสลิป ระบบจะตรวจสอบให้อัตโนมัติ</p>
+              <p>{t('section_1.item_2')}</p>
             </li>
             <li className="flex flex-row gap-2 items-center">
               <FaCheckSquare size={20} className="text-indigo-800" />{" "}
-              <p>รับชมคอร์สเรียนออนไลน์ ระยะเวลา 1 ปีเต็ม</p>
+              <p>{t('section_1.item_3')}</p>
             </li>
           </ul>
           <Button size="md" className="mt-6 bg-indigo-800 text-sm">
-            <Link href={`/${locale}/home/course`}>เลือกซื้อคอร์สเรียน </Link>
+            <Link href={`/${locale}/home/course`}>{t('section_1.button')} </Link>
           </Button>
         </section>
       </div>
 
       {/* 4 ขั้นตอน */}
       <div className="mt-8 flex flex-wrap  container mx-auto  px-8 lg:px-0">
-        {data.map((item, index) => (
+        {results.map((item: any, index: number) => (
           <section className=" w-full lg:w-1/4 p-2 " key={item.id}>
             <div className="bg-white rounded-md shadow-xl px-6 py-8 lg:py-6">
               <div className="flex flex-row gap-2 justify-between">
                 <div className="w-3/4">
                   <h2 className=" text-lg text-indigo-800 ">{item.title}</h2>
                 </div>
-                <div className="1/4">{item.icon}</div>
+                <div className="1/4">
+                  <IconRenderer iconName={item.icon} />
+                </div>
               </div>
 
-              <p className="mt-3 text-sm text-gray-700">
-                {item.dec}
-              </p>
-              <Link href={item.link}>
+              <p className="mt-3 text-sm text-gray-700">{item.dec}</p>
+              <Link href={
+                item.status_locale ? `/${locale}/${item.link}` : item.link
+              }>
                 <div className="mt-6 flex flex-row gap-2 justify-start items-center">
                   <p className="text-sm text-indigo-900  font-medium ">
                     {item.button}
@@ -118,3 +123,16 @@ export default function Page() {
     </div>
   );
 }
+
+type IconRendererProps = {
+  iconName: keyof typeof Icons; 
+};
+
+const IconRenderer: React.FC<IconRendererProps> = ({ iconName }) => {
+  const IconComponent = Icons[iconName];
+
+  if (!IconComponent) return null;
+
+  return <IconComponent size={30} className="text-indigo-600" />;
+};
+

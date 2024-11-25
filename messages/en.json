@@ -234,19 +234,22 @@
         {
           "id": 0,
           "title": "Trading Basics for Beginners",
-          "dec": "Introduction to online trading and various types of investments such as Forex, Stocks, and Cryptocurrencies to understand the basics before starting to trade."
+          "dec": "Introduction to online trading and various types of investments such as Forex, Stocks, and Cryptocurrencies to understand the basics before starting to trade.",
+          "link_text" : "Latest activity"
         },
         {
           "id": 1,
           "title_1": "Technical Analysis",
           "dec_1": "Teaches technical analysis to read price charts, including using various tools and indicators, and fundamental analysis to assess the value of assets.",
           "title_2": "Risk management and investment planning",
-          "dec_2": "Learn how to manage trading risks to prevent losses and plan your investments systematically to increase your chances of making profits."
+          "dec_2": "Learn how to manage trading risks to prevent losses and plan your investments systematically to increase your chances of making profits.",
+          "link_text" : "Latest activity"
         },
         {
           "id": 2,
           "title": "Use online trading platforms",
-          "dec": "Recommend how to use trading platforms such as MetaTrader or TradingView and various additional tools to help in making investment decisions."
+          "dec": "Recommend how to use trading platforms such as MetaTrader or TradingView and various additional tools to help in making investment decisions.",
+          "link_text" : "Latest activity"
         }
       ]
     }
