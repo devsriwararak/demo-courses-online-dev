@@ -12,7 +12,6 @@ const Part4 = () => {
         <h2 className="text-white text-[28px] sm:text-[35px] font-[700] text-nowrap">
           {t("title")}
         </h2>
-
         <Part4_data />
       </div>
     </div>
