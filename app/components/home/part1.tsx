@@ -1,7 +1,9 @@
 import Image from "next/image";
 import Carousel from "../carousel";
+import { useTranslations } from "next-intl";
 
 const Part1: React.FC = () => {
+  const t = useTranslations("HomePage");
   return (
     <div
       style={{
@@ -16,12 +18,12 @@ const Part1: React.FC = () => {
       <div className="flex flex-col   mx-auto container lg:px-28 py-20  md:py-40    h-full ">
        
           <h1 className=" text-white text-4xl md:text-[80px] text-center lg:text-start   font-[700]">
-            คอร์สสอนเทรด
+            {t("banner.title_1")}
           </h1>
         
         <div>
           <h1 className=" mt-4 md:mt-10 lg:md-0 text-4xl md:text-[60px] 2xl:ps-[130px] font-[700] text-[#DF9E10] text-center lg:text-start ">
-            สู่นักเทรดมืออาชีพ
+          {t("banner.title_2")}
           </h1>
         </div>
 

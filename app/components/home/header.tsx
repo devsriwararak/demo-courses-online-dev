@@ -83,19 +83,21 @@ const HeaderButton: React.FC<HeaderButtonProps> = ({
   );
 };
 
-export function HeaderHome({locale} : {locale : string}) {
+export function HeaderHome({ locale }: { locale: string }) {
   const [openNav, setOpenNav] = useState(false);
   const router = useRouter();
   const currentPath = usePathname();
   const searchParams = useSearchParams();
+  const lang_1 = "../../../public/th.png";
+  const lang_2 = "../../../public/en.png";
 
-  const changeLanguage = (lang: string) => {
-    const params = searchParams ? `?${searchParams.toString()}` : "";
-    const pathWithoutLang = currentPath.replace(/\/(en|th)$/, "");
-    const newPath = `${pathWithoutLang}/${lang}`;
-    // เปลี่ยนเส้นทาง
-    window.location.href = `${newPath}${params}`;
-  };
+  // const changeLanguage = (lang: string) => {
+  //   const params = searchParams ? `?${searchParams.toString()}` : "";
+  //   const pathWithoutLang = currentPath.replace(/\/(en|th)$/, "");
+  //   const newPath = `${pathWithoutLang}/${lang}`;
+  //   // เปลี่ยนเส้นทาง
+  //   window.location.href = `${newPath}${params}`;
+  // };
 
   useEffect(() => {
     const handleResize = () => {
@@ -119,7 +121,7 @@ export function HeaderHome({locale} : {locale : string}) {
 
   const navList = useMemo(
     () => (
-      <ul className="mt-2 mb-4 flex flex-col gap-2 2xl:gap-7 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-5  ">
+      <ul className="mt-2 mb-4 flex flex-col gap-2 2xl:gap-4 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-5  ">
         {navItems.map((item) => (
           <NavItem
             key={item.href}
@@ -134,9 +136,15 @@ export function HeaderHome({locale} : {locale : string}) {
     [handleNavigation, currentPath]
   );
 
+
+  
+  const changeLanguage = (locale: string) => {
+    const normalizationPath = currentPath.replace(/^\/(th|en)/,"")
+    router.push(`/${locale}/${normalizationPath}`);
+  };
+
   return (
     <div className="max-h-[768px]">
-      testxx : {locale}
       <Navbar
         className="sticky min-w-full  top-0 z-10 h-max    rounded-none  lg:px-60  mx-auto container "
         style={{
@@ -144,16 +152,18 @@ export function HeaderHome({locale} : {locale : string}) {
           borderBottom: "3px solid #DF9E10",
         }}
       >
-        {(currentPath == "/home" || currentPath == "/home/th" ||  currentPath == "/home/en" || currentPath == "/home/course") &&
-           (
-            <div>
-              <button onClick={() => changeLanguage("en")}>English</button>
-              <button onClick={() => changeLanguage("th")}>ไทย</button>
-            </div>
-          )}
+        {/* {(currentPath == "/home" ||
+          currentPath == "/home/th" ||
+          currentPath == "/home/en" ||
+          currentPath == "/home/course") && (
+          <div>
+            <button onClick={() => changeLanguage("en")}>English</button>
+            <button onClick={() => changeLanguage("th")}>ไทย</button>
+          </div>
+        )} */}
 
-        <div className="flex flex-row  items-center justify-between gap-5  ">
-          <div className=" w-full   ">
+        <div className="flex flex-row  items-center justify-between gap-4 ">
+          <div className=" w-full    ">
             <Link href="/home">
               <Image
                 src={"/logo_3.png"}
@@ -164,15 +174,26 @@ export function HeaderHome({locale} : {locale : string}) {
               />
             </Link>
           </div>
-          <div className="w-full">
-            <div className="flex items-center xl:gap-4 whitespace-nowrap">
+          <div className="w-full  ">
+            <div className="flex items-center xl:gap-2 whitespace-nowrap">
               <div className="mr-4 hidden   lg:block">{navList}</div>
-              <div className="flex rounded-lg">
-                <HeaderButton href="/login" variant="gradient">
-                  เข้าสู่ระบบ
-                </HeaderButton>
-                <Link href="/login">xxx</Link>
+              <div className="flex rounded-lg gap-2">
+                <div className="w-full">
+                  <HeaderButton href="/login" variant="gradient">
+                    เข้าสู่ระบบ
+                  </HeaderButton>
+                </div>
+
+                <div className="w-full flex gap-2">
+                  <button className="flex items-center justify-center w-8 h-8   " onClick={()=>changeLanguage("th")}>
+                    <Image src={"/th.png"} alt="th" width={300} height={300} className=" rounded-sm" />
+                  </button>
+                  <button className="flex items-center justify-center w-8 h-8 " onClick={()=>changeLanguage("en")}>
+                    <Image src={"/en.png"} alt="en" width={300} height={300} className=" rounded-sm" />
+                  </button>
+                </div>
               </div>
+
               <IconButton
                 variant="text"
                 className=" ml-auto pt-10 h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
