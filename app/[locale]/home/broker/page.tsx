@@ -1,11 +1,13 @@
 "use client";
 import { Button } from "@material-tailwind/react";
+import { useLocale } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import { FaCheckSquare, FaChevronRight } from "react-icons/fa";
 import { FaApple, FaGooglePlay, FaCheck } from "react-icons/fa";
 
 export default function Page() {
+  const locale = useLocale()
   return (
     <div className="">
       <div className="flex flex-col lg:flex-row gap-3 items-end mx-auto container px-6 md:px-20 py-14 lg:py-20">
@@ -139,7 +141,7 @@ export default function Page() {
                 </li>
               </ul>
               <div className="mt-4 flex flex-row gap-2 justify-end items-center">
-                <Link href="/home/course" className="text-gray-900 font-semibold text-sm">
+                <Link href={`/${locale}/home/course`} className="text-gray-900 font-semibold text-sm">
                   คอร์สเรียนทั้งหมด
                 </Link>
                 <FaChevronRight

@@ -5,6 +5,7 @@ import parse from "html-react-parser";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { truncateText } from "@/app/libs/TruncateText";
+import { useLocale } from "next-intl";
 
 // กำหนดโครงสร้างของข้อมูลข่าว
 interface NewsItem {
@@ -24,6 +25,7 @@ interface NewsSidebarProps {
 
 const NewsSidebar: React.FC<NewsSidebarProps> = ({ id, name, title }) => {
   const [newsData, setNewsData] = useState<NewsItem[]>([]);
+  const locale = useLocale()
 
   // ฟังก์ชันดึงข้อมูลข่าวจาก API
   const fetchNews = async () => {
@@ -77,7 +79,7 @@ const NewsSidebar: React.FC<NewsSidebarProps> = ({ id, name, title }) => {
    
       <ul className=" mt-2">
         {newsData.map((newsItem, index) => (
-          <Link href={`/home/${getLink(name)}/${newsItem.id}`} key={index}>
+          <Link href={`/${locale}/home/${getLink(name)}/${newsItem.id}`} key={index}>
             <li className="flex flex-col lg:flex-row gap-2 py-6 md:py-8 lg:py-4 border-b border-gray-200 hover:bg-gray-100">
               <section className=" w-full lg:w-1/3">
                 <div className="relative w-full h-44 lg:h-20">

@@ -13,6 +13,7 @@ import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
+
 const navItems = [
   { href: "/home", label: "หน้าหลัก" },
   { href: "/home/course", label: "คอร์สเรียน" },
@@ -88,8 +89,7 @@ export function HeaderHome({ locale }: { locale: string }) {
   const router = useRouter();
   const currentPath = usePathname();
   const searchParams = useSearchParams();
-  const lang_1 = "../../../public/th.png";
-  const lang_2 = "../../../public/en.png";
+// const locale22 = useLocale()
 
   // const changeLanguage = (lang: string) => {
   //   const params = searchParams ? `?${searchParams.toString()}` : "";
@@ -125,7 +125,7 @@ export function HeaderHome({ locale }: { locale: string }) {
         {navItems.map((item) => (
           <NavItem
             key={item.href}
-            href={item.href}
+            href={`/${locale}${item.href}`}
             label={item.label}
             currentPath={currentPath}
             onClick={handleNavigation}
@@ -137,7 +137,7 @@ export function HeaderHome({ locale }: { locale: string }) {
   );
 
 
-  
+  {}
   const changeLanguage = (locale: string) => {
     const normalizationPath = currentPath.replace(/^\/(th|en)/,"")
     router.push(`/${locale}/${normalizationPath}`);
@@ -163,7 +163,7 @@ export function HeaderHome({ locale }: { locale: string }) {
         )} */}
 
         <div className="flex flex-row  items-center justify-between gap-4 ">
-          <div className=" w-full    ">
+          <div className=" w-full     ">
             <Link href="/home">
               <Image
                 src={"/logo_3.png"}
@@ -174,13 +174,13 @@ export function HeaderHome({ locale }: { locale: string }) {
               />
             </Link>
           </div>
-          <div className="w-full  ">
+          <div className="w-full   ">
             <div className="flex items-center xl:gap-2 whitespace-nowrap">
               <div className="mr-4 hidden   lg:block">{navList}</div>
               <div className="flex rounded-lg gap-2">
                 <div className="w-full">
                   <HeaderButton href="/login" variant="gradient">
-                    เข้าสู่ระบบ x
+                    เข้าสู่ระบบ
                   </HeaderButton>
                 </div>
 

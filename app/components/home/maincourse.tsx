@@ -1,6 +1,7 @@
 "use client";
 import { Input, Option, Radio, Select } from "@material-tailwind/react";
 import axios from "axios";
+import { useLocale } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
@@ -29,6 +30,7 @@ const CoursesPage: React.FC = () => {
   const [search, setSearch] = useState<string>("");
   const [selectType, setSelectType] = useState<any>("");
   const [selectTypeName, setSelectTypeName] = useState<any>("");
+  const locale = useLocale()
 
   // ฟังก์ชันดึงข้อมูลจาก API โดยรับชนิดข้อมูลที่ชัดเจน
   const fetchData = async (): Promise<{ data: Course[] } | undefined> => {
@@ -111,7 +113,7 @@ const CoursesPage: React.FC = () => {
         <div className="flex flex-row items-center lg:items-start justify-between md:flex-col mb-3 gap-3">
           <h2 className="font-light text-lg">คอร์เรียนใหม่</h2>
           <h2 className="text-indigo-800 text-sm font-light">
-            คอร์เรียนทั้งหมด
+            คอร์เรียนทั้งหมด 
           </h2>
         </div>
         <hr className="border border-gray-200 my-1" />
@@ -212,7 +214,7 @@ const CoursesPage: React.FC = () => {
               key={course.id}
               className="bg-white border border-gray-100 pb-3 shadow-sm rounded-md flex flex-col justify-between"
             >
-              <Link href={`/home/course/${course.id}`}>
+              <Link href={`/${locale}/home/course/${course.id}`}>
                 <Image
                   src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${course.image}`}
                   alt={course.title}

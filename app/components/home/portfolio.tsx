@@ -1,5 +1,6 @@
 "use client";
 import axios from "axios";
+import { useLocale } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
@@ -19,6 +20,7 @@ const PortfolioPage = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [type, setType] = useState(0);
+  const locale = useLocale()
 
   const fetchData = async () => {
     const requestData = {
@@ -70,7 +72,7 @@ const PortfolioPage = () => {
             }`}
             style={{ maxWidth: "150px" }} // จำกัดความกว้างของปุ่ม
           >
-            สัมมนา
+            สัมมนา 
           </button>
           <button
             onClick={() => setType(1)}
@@ -119,7 +121,7 @@ const PortfolioPage = () => {
               className="bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-2xl transition-shadow duration-300 flex flex-col lg:flex-row"
             >
               <Link
-                href={`/home/portfolio/${portfolio?.id}`}
+                href={`/${locale}/home/portfolio/${portfolio?.id}`}
                 className="lg:w-2/5"
               >
                 <Image

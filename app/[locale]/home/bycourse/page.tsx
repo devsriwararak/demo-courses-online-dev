@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "@material-tailwind/react";
+import { useLocale } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import { FaCheckSquare } from "react-icons/fa";
@@ -7,6 +8,7 @@ import { VscArrowRight, VscGraphLine, VscServerEnvironment, VscVmRunning, VscWan
 
 export default function Page() {
   const image_1 = "/bycourse_1.webp";
+  const locale = useLocale()
 
   const data = [
     {
@@ -23,7 +25,7 @@ export default function Page() {
       icon: <VscGraphLine size={30} className="text-indigo-600" />,
       dec: "เมื่อเข้าสู่ระบบแล้ว สามารถไปที่หน้าคอร์สเรียนทั้งหมด และเลือกคอร์สเรียนที่ต้องการ มีรายละเอียดให้ดูก่อนเลือกซื้อคอร์สเรียน",
       button: "คอร์สเรียนทั้งหมด",
-      link:"/home/course"
+      link:`/${locale}/home/course`
     },
     {
       id: 2,
@@ -31,7 +33,7 @@ export default function Page() {
       icon: <VscServerEnvironment size={30} className="text-indigo-600" />,
       dec: "เมื่อเลือกคอร์สเรียนเสร็จแล้ว ให้กดเข้าไปที่คอร์สเรียนที่ต้องการ จะพบกับเมนูสั่งซื้อ เมื่อกดแล้วจะพบกับ QR Code สำหรับชำระเงิน",
       button: "คอร์สเรียนทั้งหมด",
-      link:"/home/course"
+      link:`/${locale}/home/course`
     },
     {
       id: 3,
@@ -39,7 +41,7 @@ export default function Page() {
       icon: <VscVmRunning size={30} className="text-indigo-600" />,
       dec: "หลังจากชำระเงินเสร็จแล้ว ให้แนบสลิปมาที่ระบบ อยู่ข่างล่าง QR Code เรามีระบบตรวจสอบสลิปที่ปลอดภัย และแม่นยำ 100% ",
       button: "คอร์สเรียนทั้งหมด",
-      link:"/home/course"
+      link:`/${locale}/home/course`
     },
   ];
   return (
@@ -78,7 +80,7 @@ export default function Page() {
             </li>
           </ul>
           <Button size="md" className="mt-6 bg-indigo-800 text-sm">
-            <Link href="/home/course">เลือกซื้อคอร์สเรียน </Link>
+            <Link href={`/${locale}/home/course`}>เลือกซื้อคอร์สเรียน </Link>
           </Button>
         </section>
       </div>

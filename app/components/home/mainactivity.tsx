@@ -1,5 +1,6 @@
 "use client";
 import axios from "axios";
+import { useLocale } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
@@ -18,6 +19,7 @@ const ActivityPage = () => {
   const [data, setData] = useState<any>(null);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const locale = useLocale()
 
   const fetchData = async () => {
     const requestData = {
@@ -70,7 +72,7 @@ const ActivityPage = () => {
             <p className="text-gray-600 text-base">
               ผลลัพท์การค้นหา{" "}
               <span className="">
-                {data?.data?.length || 0} กิจกรรม
+                {data?.data?.length || 0} กิจกรรม 
               </span>
             </p>
           </div>
@@ -97,7 +99,7 @@ const ActivityPage = () => {
               key={index}
               className="bg-white pb-3 shadow-md rounded-md flex flex-col justify-between"
             >
-              <Link href={`/home/activity/${activity?.id}`}>
+              <Link href={`/${locale}/home/activity/${activity?.id}`}>
                 <Image
                   src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${activity?.image_title}`}
                   alt={activity?.image_title}

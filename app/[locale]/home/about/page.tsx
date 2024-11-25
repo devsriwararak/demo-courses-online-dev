@@ -11,11 +11,12 @@ import { VscVmActive } from "react-icons/vsc";
 import { MdAppShortcut } from "react-icons/md";
 
 
-
-
 import Link from "next/link";
+import { useLocale } from "next-intl";
 
 export default function Page() {
+  const locale = useLocale()
+
   return (
     <div className="">
       {/* Location 1 */}
@@ -83,7 +84,9 @@ export default function Page() {
           </div>
 
           <div className=" flex flex-col lg:flex-row gap-6 items-start lg:items-center mt-4">
+            <Link href={`/${locale}/home/course`} >
             <Button className="text-sm bg-indigo-900">คอร์สเรียนทั้งหมด</Button>
+            </Link>
             <div className="flex flex-row gap-3">
               <Link href="xxx">
                 <FaFacebookSquare
@@ -144,7 +147,7 @@ export default function Page() {
                     เพื่อให้เข้าใจพื้นฐานก่อนเริ่มต้นเทรด
                   </p>
                   <div className="mt-4 text-indigo-800 font-semibold">
-                    <Link href="/home/activity">กิจกรรมล่าสุด</Link>
+                    <Link href={`/${locale}/home/activity`}>กิจกรรมล่าสุด</Link>
                   </div>
                 </section>
               </div>
@@ -170,7 +173,7 @@ export default function Page() {
                     และการวางแผนการลงทุนอย่างมีระบบเพื่อเพิ่มโอกาสในการทำกำไร
                   </p>
                   <div className="mt-4 text-indigo-800 font-semibold">
-                    <Link href="/home/activity">กิจกรรมล่าสุด</Link>
+                    <Link href={`/${locale}/home/activity`}>กิจกรรมล่าสุด</Link>
                   </div>
                 </section>
               </div>
@@ -191,7 +194,7 @@ export default function Page() {
                     ที่ช่วยในการตัดสินใจลงทุน
                   </p>
                   <div className="mt-4 text-indigo-800 font-semibold">
-                    <Link href="/home/activity">กิจกรรมล่าสุด</Link>
+                    <Link href={`/${locale}/home/activity`}>กิจกรรมล่าสุด</Link>
                   </div>
                 </section>
               </div>
