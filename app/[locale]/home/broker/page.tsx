@@ -15,6 +15,7 @@ export default function Page() {
           <h1 className="text-2xl lg:text-3xl  leading-relaxed">
             สมัครสมาชิกเครื่องมือเทรดเดอร์แบบที่มืออาชีพใช้กัน HFM
           </h1>
+          
 
           <ul className="text-indigo-600 mt-6 flex flex-col gap-2">
             <li className="flex flex-row gap-2 items-center">
