@@ -180,7 +180,7 @@ export function HeaderHome({ locale }: { locale: string }) {
               <div className="flex rounded-lg gap-2">
                 <div className="w-full">
                   <HeaderButton href="/login" variant="gradient">
-                    เข้าสู่ระบบ
+                    เข้าสู่ระบบ x
                   </HeaderButton>
                 </div>
 
