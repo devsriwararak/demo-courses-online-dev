@@ -1,4 +1,5 @@
 "use client";
+import { useLocale } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -16,12 +17,14 @@ const Part4_LargeNewsItem: React.FC<NewsItemProps> = ({
   description,
   id,
 }) => {
+  const locale = useLocale()
+
   return (
     <div
       className="mt-10 rounded-xl lg:w-5/12 xl:overflow-hidden"
       style={{ background: "#CDCDCD" }}
     >
-      <Link href={`/home/activity/${id}`}>
+      <Link href={`/${locale}/home/activity/${id}`}>
         <Image
           src={image}
           alt={title}

@@ -1,6 +1,5 @@
 //app/[locale]/home/page.tsx
 
-"use client";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import OpenHomePage from "@/app/components/home/home";

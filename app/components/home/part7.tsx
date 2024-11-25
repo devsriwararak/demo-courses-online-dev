@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import React from "react";
 
@@ -20,6 +21,9 @@ const data = [
 ];
 
 const Part7 = () => {
+  const t = useTranslations("HomePage.section_6");
+  const results = t.raw('results')
+
   return (
     <div
       className=" py-16 md:py-32  "
@@ -41,11 +45,8 @@ const Part7 = () => {
 
         {/* กล่องข้อความด้านขวา */}
         <div className="w-full lg:w-7/12  pt-5 space-y-6">
-          <h2 className="text-white text-2xl md:text-[50px]   font-[700] mb-6">
-            FAQ
-            <span className="text-white text-2xl  md:text-[30px] font-[700]   ps-6">
-              คำถามที่พบบ่อย เรื่องคอร์สเรียนเทรดออนไลน์
-            </span>
+          <h2 className="text-white text-2xl lg:text-4xl    font-[700] mb-6">
+            FAQ {t("title")}
           </h2>
 
           {/* <div className="bg-[#F3F4F6] rounded-lg p-4 mb-4 2xl:mr-52">
@@ -83,7 +84,7 @@ const Part7 = () => {
 
           {/* FAQ Item */}
           <div>
-            {data.map((item, index) => (
+            {results.map((item : any, index : number) => (
               <div className="bg-[#F3F4F6] rounded-lg p-4 mb-4 2xl:mr-52" key={item.id}>
                 <details className="group">
                   <summary className="flex justify-between items-center cursor-pointer ">

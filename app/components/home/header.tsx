@@ -12,18 +12,18 @@ import { IoMenu } from "react-icons/io5";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-
+import { useLocale, useTranslations } from "next-intl";
 
 const navItems = [
-  { href: "/home", label: "หน้าหลัก" },
-  { href: "/home/course", label: "คอร์สเรียน" },
-  { href: "/home/broker", label: "โบรกเกอร์" },
-  { href: "/home/ebook", label: "Ebook" },
-  { href: "/home/about", label: "เกี่ยวกับเรา" },
-  { href: "/home/portfolio", label: "ผลงาน" },
-  { href: "/home/activity", label: "กิจกรรม" },
-  { href: "/home/bycourse", label: "วิธีการซื้อคอร์ส" },
-  { href: "/home/contact", label: "ติดต่อเรา" },
+  { href: "/home", label: 'home' },
+  { href: "/home/course", label: "course" },
+  { href: "/home/broker", label: "broker" },
+  { href: "/home/ebook", label: "ebook" },
+  { href: "/home/about", label: "about" },
+  { href: "/home/portfolio", label: "portfolio" },
+  { href: "/home/activity", label: "activity" },
+  { href: "/home/bycourse", label: "bycourse" },
+  { href: "/home/contact", label: "contact" },
 ];
 
 interface NavItemProps {
@@ -89,15 +89,8 @@ export function HeaderHome({ locale }: { locale: string }) {
   const router = useRouter();
   const currentPath = usePathname();
   const searchParams = useSearchParams();
-// const locale22 = useLocale()
-
-  // const changeLanguage = (lang: string) => {
-  //   const params = searchParams ? `?${searchParams.toString()}` : "";
-  //   const pathWithoutLang = currentPath.replace(/\/(en|th)$/, "");
-  //   const newPath = `${pathWithoutLang}/${lang}`;
-  //   // เปลี่ยนเส้นทาง
-  //   window.location.href = `${newPath}${params}`;
-  // };
+  // const locale22 = useLocale()
+  const t = useTranslations("NavbarLinks");
 
   useEffect(() => {
     const handleResize = () => {
@@ -126,7 +119,7 @@ export function HeaderHome({ locale }: { locale: string }) {
           <NavItem
             key={item.href}
             href={`/${locale}${item.href}`}
-            label={item.label}
+            label={t(item.label)}
             currentPath={currentPath}
             onClick={handleNavigation}
           />
@@ -136,10 +129,10 @@ export function HeaderHome({ locale }: { locale: string }) {
     [handleNavigation, currentPath]
   );
 
-
-  {}
+  {
+  }
   const changeLanguage = (locale: string) => {
-    const normalizationPath = currentPath.replace(/^\/(th|en)/,"")
+    const normalizationPath = currentPath.replace(/^\/(th|en)/, "");
     router.push(`/${locale}/${normalizationPath}`);
   };
 
@@ -185,11 +178,29 @@ export function HeaderHome({ locale }: { locale: string }) {
                 </div>
 
                 <div className="w-full flex gap-2">
-                  <button className="flex items-center justify-center w-8 h-8   " onClick={()=>changeLanguage("th")}>
-                    <Image src={"/th.png"} alt="th" width={300} height={300} className=" rounded-sm" />
+                  <button
+                    className="flex items-center justify-center w-8 h-8   "
+                    onClick={() => changeLanguage("th")}
+                  >
+                    <Image
+                      src={"/th.png"}
+                      alt="th"
+                      width={300}
+                      height={300}
+                      className=" rounded-sm"
+                    />
                   </button>
-                  <button className="flex items-center justify-center w-8 h-8 " onClick={()=>changeLanguage("en")}>
-                    <Image src={"/en.png"} alt="en" width={300} height={300} className=" rounded-sm" />
+                  <button
+                    className="flex items-center justify-center w-8 h-8 "
+                    onClick={() => changeLanguage("en")}
+                  >
+                    <Image
+                      src={"/en.png"}
+                      alt="en"
+                      width={300}
+                      height={300}
+                      className=" rounded-sm"
+                    />
                   </button>
                 </div>
               </div>

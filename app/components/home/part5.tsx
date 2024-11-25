@@ -1,11 +1,14 @@
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import React from "react";
 
 const Part5 = () => {
+  const t = useTranslations("HomePage.section_4");
+
   return (
     <div className="bg-[#222222] py-14  md:py-20 h-full border-t-gray-800 border-t-[1px]     ">
       <h2 className="text-white text-3xl md:text-[35px]  font-[700] text-center mb-10 px-8">
-        เรียนเทรดกับเราดีอย่างไร
+        {t('title')}
       </h2>
 
       <div className="flex flex-col lg:flex-row items-center gap-16 2xl:gap-0 w-full lg:w-10/12 px-8 lg:px-18  mx-auto container">
@@ -36,28 +39,26 @@ const Part5 = () => {
         <div className="flex flex-col items-start text-white space-y-8 text-left lg:w-6/12">
           <div>
             <h3 className="text-xl md:text-[25px]  font-[700]">
-              แชร์ความรู้เรื่องการเทรด ทดลองเรียนฟรี
+              {t('result_1.title')}
             </h3>
             <p className="text-[17px] font-[400] text-[#a3a3a3] mt-2 ">
-              Nang Fah Pa Trade ให้ความรู้เรื่องการเทรด ยังมีคอร์สทดลองเรียนฟรี
+            {t('result_1.dec')}
             </p>
           </div>
           <div>
             <h3 className="text-xl md:text-[25px] font-[700]">
-              คอร์สเรียนดูได้นานถึง 1 ปี เรียนได้ทุกอุปกรณ์
+            {t('result_2.title')}
             </h3>
             <p className="text-[17px] font-[400] text-[#a3a3a3] mt-2">
-              รับชมคอร์สเรียน คอร์สเรียนมีอายุ 1 ปีต่อคอร์สเรียน
-              นับตั้งแต่วันที่สมัคร
+            {t('result_2.dec')}
             </p>
           </div>
           <div>
             <h3 className="text-xl md:text-[25px] font-[700]">
-              มีเจ้าหน้าที่พร้อมดูแลหลายช่องทาง
+            {t('result_3.title')}
             </h3>
             <p className="text-[17px] font-[400] text-[#a3a3a3] mt-2 ">
-              หากมีคำถามหรือติดปัญหา สามารถแจ้งปัญหาผ่านทางแชท โทรศัพท์ ตลอด 24
-              ชั่วโมง
+            {t('result_3.dec')}
             </p>
           </div>
         </div>
