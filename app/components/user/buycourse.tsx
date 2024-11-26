@@ -18,6 +18,8 @@ import parse from "html-react-parser";
 
 import CryptoJS from "crypto-js";
 import ModalHowToPay from "./ModalHowToPay";
+import PaymentQrcode from "./payments/PaymentQrcode";
+import PaymentCreditCard from "./payments/PaymentCreditCard";
 
 const MySwal = withReactContent(Swal);
 
@@ -29,7 +31,7 @@ const BuyCourse = () => {
   const [payId, setPayId] = useState("");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState("กำลังตรวจสอบ...");
-  2;
+
   const [loadingQrcode, setLoadingQrcode] = useState(false);
   const [file, setFile] = useState(null);
   const [imageQrCode, setImageQrCode] = useState("");
@@ -40,6 +42,8 @@ const BuyCourse = () => {
     code: "",
     status: "",
   });
+  const [paymentPage, setPaymentPage] = useState(0);
+  const [paymentSelect, setPaymentSelect] = useState(0);
 
   const { id } = useParams();
 
@@ -57,7 +61,6 @@ const BuyCourse = () => {
   // Modal
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
- 
 
   const truncateText = (text: string, limit: number) => {
     if (text.length > limit) {
@@ -78,12 +81,14 @@ const BuyCourse = () => {
           },
         }
       );
+
       if (res.status === 200) {
-        setBuyData(res.data);
         const price = res.data.products_price_sale
           ? res.data.products_price_sale
           : res.data.products_price;
 
+        setBuyData(res.data);
+        
         setTimeout(() => {
           fetchDataMyPay(price);
         }, 2000);
@@ -96,7 +101,7 @@ const BuyCourse = () => {
     }
   };
 
-  const fetchDataMyPay = async (price: number) => {
+  const fetchDataMyPay = async (price:number) => {
     try {
       const sendData = {
         products_id: id,
@@ -114,21 +119,21 @@ const BuyCourse = () => {
           },
         }
       );
-      console.log({ mypat: res });
 
       if (res.status === 200) {
+        setLoadingQrcode(true);
+        await fetchDataCreateQrCode(price);
+
         setCheckPay({
           id: res.data.id,
           code: res.data.code,
           status: res.data.status,
         });
 
-        setLoadingQrcode(true);
-        await fetchDataCreateQrCode(price);
-
         if (res.data.id) {
           setLoading("");
           setShow(true);
+          setPaymentSelect(res.data.type);
 
           // await
         } else {
@@ -167,122 +172,17 @@ const BuyCourse = () => {
       console.log(error);
     }
   };
-  
 
   useEffect(() => {
     fetchData();
   }, [show]);
 
-  const handleFileChange = (event: any) => {
-    setFile(event.target.files[0]); // Capture the file when the input changes
-  };
-
-  const handleCheck = async () => {
-    setLoading("");
-    MySwal.fire({
-      title: "กำลังส่งข้อมูล...",
-      allowOutsideClick: false,
-      width: "350px",
-      padding: "35px",
-      didOpen: () => {
-        MySwal.showLoading();
-      },
-    });
-
-    const data = {
-      users_id: Number(userId),
-      product_id: Number(buyData?.product_id),
-    };
-    try {
-      // console.log(data);
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API}/api/pay/add`,
-        data,
-        {
-          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
-        }
-      );
-
-      if (res.status === 200) {
-        toast.success(res.data.message);
-        setPayId(res.data.pay_id);
-        setShow(true);
-        setBill(res?.data?.bill_number);
-        MySwal.close();
-      } else {
-        return;
-      }
-    } catch (err) {
-      MySwal.close();
-      const error = err as { response: { data: { message: string } } };
-      toast.error(error.response.data.message);
-      setLoading("");
-    }
-  };
-
-  const handleSubmit = async () => {
-    if (!file) {
-      toast.error("กรุณาแนบไฟล์สลิป!"); // Display an error message if no file is selected
-      return;
-    }
-
-    MySwal.fire({
-      title: "กำลังส่งข้อมูล...",
-      allowOutsideClick: false,
-      width: "350px",
-      padding: "35px",
-      didOpen: () => {
-        MySwal.showLoading();
-      },
-    });
-
-    const formData = new FormData();
-    formData.append("pay_id", payId ? payId : checkPay.id);
-
-    // const price =
-    //   buyData?.price_sale && buyData?.price_sale > 0
-    //     ? buyData?.price_sale.toString()
-    //     : buyData?.price?.toString() || "0";
-
-    const price = buyData?.products_price_sale
-      ? buyData?.products_price_sale.toLocaleString()
-      : buyData?.products_price.toLocaleString();
-
-    formData.append("price", price);
-    formData.append("file", file);
-
-    try {
-      console.log(Object.fromEntries(formData));
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API}/api/pay/upload_slip`,
-        formData,
-        { ...HeaderMultiAPI(decryptData(localStorage.getItem("Token") || "")) }
-      );
-
-      console.log(response);
-
-      if (response.status === 200) {
-        await fetchDataMyPay(0);
-        toast.success(response.data.message);
-        setSuccess(true);
-        MySwal.close();
-      } else {
-        setLoading("");
-        toast.error("Form submission failed!");
-        MySwal.close();
-      }
-    } catch (err) {
-      MySwal.close();
-      const error = err as { response: { data: { message: string } } };
-      toast.error(error.response.data.message);
-      setLoading("");
-    }
-  };
-
   return (
     <div className="flex flex-col w-full justify-center items-center  lg:flex-row gap-5 py-0 lg:py-10 px-3 lg:px-36   ">
       <ToastContainer autoClose={2000} theme="colored" />
-      <ModalHowToPay open={open} handleOpen={handleOpen}  />
+      <ModalHowToPay open={open} handleOpen={handleOpen} />
+      {/* <h1>SHOW : {JSON.stringify(show)}</h1>
+      <h1>paymentSelect : {paymentSelect}</h1> */}
 
       <div className="w-full md:w-3/5 ">
         <Card className="lg:h-[550px] w-full overflow-auto gap-5 !bg-white  ">
@@ -296,10 +196,10 @@ const BuyCourse = () => {
             />
           </div>
 
-          <div className="flex flex-col  gap-3 py-4 px-6 md:px-8  ">
+          <div className="flex flex-col  gap-1.5 py-4 px-6 md:px-8  ">
             <div className=" flex flex-col lg:flex-row  gap-2  ">
               <div className="w-full lg:w-1/6">
-                <Typography className="font-bold text-base text-black ">
+                <Typography className=" text-base text-black ">
                   หัวข้อ :
                 </Typography>
               </div>
@@ -312,7 +212,7 @@ const BuyCourse = () => {
 
             <div className=" flex flex-col lg:flex-row gap-2  ">
               <div className="w-full lg:w-1/6">
-                <Typography className="font-bold text-black  text-base">
+                <Typography className=" text-black  text-base">
                   ราคา :
                 </Typography>
               </div>
@@ -329,7 +229,7 @@ const BuyCourse = () => {
             <div className=" flex flex-col lg:flex-row gap-2    ">
               <div className="w-full lg:w-1/6">
                 <Typography className="font-bold text-base text-red-500  ">
-                  ลดราคาจาก :
+                  ลดเหลือ :
                 </Typography>
               </div>
               <div className="w-full text-sm lg:w-5/6">
@@ -344,9 +244,7 @@ const BuyCourse = () => {
 
             <div className=" flex flex-col lg:flex-row gap-2 items-start ">
               <div className=" w-full lg:w-1/6">
-                <Typography className="font-bold text-black ">
-                  รายละเอียด :
-                </Typography>
+                <Typography className=" text-black ">รายละเอียด :</Typography>
               </div>
               {/* <Typography>{truncateText(buyData?.dec || "", 70)}</Typography> */}
               <div className="w-full text-sm lg:w-5/6">
@@ -355,7 +253,7 @@ const BuyCourse = () => {
             </div>
 
             <div className="mt-4 mb-10">
-              <h2 className="text-lg text-back">รายละเอียดบทเรียน</h2>
+              <h2 className="text-lg text-black">รายละเอียดบทเรียน</h2>
               <div className="mt-5 bg-gray-50 rounded-md">
                 {buyData?.result_list?.map((lesson: any, index: number) => (
                   <div
@@ -365,7 +263,7 @@ const BuyCourse = () => {
                     <h2 className="font-semibold text-sm text-gray-700">
                       {lesson.title}
                     </h2>
-                    <p className="text-gray-600 text-sm">
+                    <p className="text-gray-800 text-sm">
                       จำนวน {lesson.video_count} บทเรียน
                     </p>
                   </div>
@@ -379,171 +277,76 @@ const BuyCourse = () => {
       <div className="w-full md:w-2/5  ">
         <Card className="lg:h-[550px] w-full overflow-auto gap-5 px-6 py-4">
           <div className="flex flex-col lg:flex-row gap-4 ">
-            <div className="w-full sm:w-[150px]">
-              <Button
+            <div className="w-full lg:w-2/3 flex gap-4 ">
+              {/* <Button
                 className="w-full justify-center items-center text-base font-normal mb-0"
                 size="sm"
-                style={{
-                  backgroundImage:
-                    "linear-gradient(150deg, rgba(162,102,246,1) 10.8%, rgba(203,159,249,1) 94.3%)",
-                }}
+              
                 onClick={handleCheck}
                 disabled={checkPay.id}
               >
                 ทำรายการซื้อ
-              </Button>
+              </Button> */}
+              <button
+                className={`${paymentPage === 1 ? "bg-gray-300" : "bg-gray-100"} border-2 border-gray-300 rounded-md  hover:bg-gray-200 disabled:bg-gray-800  disabled:text-gray-300`}
+                onClick={() => setPaymentPage(1)}
+                disabled={paymentSelect === 2}
+              >
+                <Image
+                  src="/payment_qrcode.webp"
+                  alt=""
+                  width={300}
+                  height={300}
+                />
+                <p className="text-sm  hover:text-black hover:font-semibold">
+                  QR CODE {paymentSelect}
+                </p>
+              </button>
+              <button
+                className={`${paymentPage === 2 ? "bg-gray-300" : "bg-gray-100"} border-2 border-gray-300 rounded-md  hover:bg-gray-200 disabled:bg-gray-800  disabled:text-gray-700`}
+                onClick={() => setPaymentPage(2)}
+                disabled={paymentSelect === 1}
+              >
+                <Image
+                  src="/payment_visa.webp"
+                  alt=""
+                  width={300}
+                  height={300}
+                />
+                <p className="text-sm hover:text-black hover:font-semibold  ">
+                  CREDIT CARD
+                </p>
+              </button>{" "}
             </div>
 
-            <div className="w-full sm:w-[150px]">
+            <div className="w-full flex flex-col gap-3  justify-center items-center lg:w-1/3 ">
               <Button
-                className="w-full justify-center items-center text-base font-normal mb-0"
+                className="w-full justify-center items-center text-base font-normal mb-0 bg-indigo-900"
                 size="sm"
-                style={{
-                  backgroundImage:
-                    "linear-gradient(150deg, rgba(162,102,246,1) 10.8%, rgba(203,159,249,1) 94.3%)",
-                }}
                 onClick={handleOpen}
-                
               >
                 วิธีการชำระเงิน
               </Button>
+              {loading && <p className="text-sm">{loading}</p>}
             </div>
           </div>
 
           <hr className=" " />
 
-          {loading && <p>{loading}</p>}
-
-          {show ? (
-            <div className="flex flex-col gap-3 ">
-              <>
-                <div className="flex flex-col lg:flex-row gap-4">
-                  <div className="w-full">
-                    {loadingQrcode
-                      ? imageQrCode && (
-                          <img
-                            src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${imageQrCode}`}
-                            className="w-32"
-                            alt=""
-                          />
-                        )
-                      : "กำลังสร้าง QR Code ...."}
-                  </div>
-                  <div className="w-full">
-                    <ul className="text-base">
-                      <li>บัญชี : พร้อมเพย์</li>
-                      <li>เลขที่บัญชี : 0850032649</li>
-                      <li>ชื่อเจ้าของบัญชี : นาย</li>
-                    </ul>
-                  </div>
-                </div>
-              </>
-
-              <div className="flex flex-col 2xl:flex-row gap-5 2xl:gap-[57px] items-center mb-2 ">
-                <div className="w-full">
-                  <Typography className="font-bold whitespace-nowrap  ">
-                    บิลเลขที่ :
-                  </Typography>
-                  <Typography className="text-base">
-                    {bill || checkPay.code}
-                  </Typography>
-                </div>
-
-                <div className="w-full">
-                  <div
-                    className={`${
-                      checkPay.status == 0
-                        ? "bg-red-500"
-                        : checkPay.status === 1
-                        ? "bg-green-500"
-                        : ""
-                    } py-2 px-4  flex gap-2 rounded-md`}
-                  >
-                    <Typography className="font-semibold text-white">
-                      สถานะ :
-                    </Typography>
-                    <Typography className="font-semibold text-white">
-                      {checkPay.status == 0
-                        ? "ยังไม่ชำระ"
-                        : checkPay.status === 1
-                        ? "ชำระเงินแล้ว"
-                        : ""}
-                    </Typography>
-                  </div>
-                </div>
-              </div>
-
-              {success ? (
-                ""
-              ) : (
-                <div className="">
-                  <hr className="" />
-
-                  <div className="flex flex-col 2xl:flex-row items-center gap-5 2xl:gap-[34px]  py-2">
-                    <div className="w-full">
-                      <Typography className="font-bold text-base whitespace-nowrap ">
-                        ราคารวมภาษีมูลค่าเพิ่ม :
-                      </Typography>
-                      <Typography className="text-lg">
-                        ราคา{" "}
-                        {buyData?.products_price_sale || 0 > 0
-                          ? buyData?.products_price_sale?.toLocaleString()
-                          : buyData?.products_price?.toLocaleString()}{" "}
-                        บาท
-                      </Typography>
-                    </div>
-
-                    {checkPay.status === 0 && (
-                      <div className="w-full">
-                        <Input
-                          type="file"
-                          label="แนบสลิป files"
-                          onChange={handleFileChange}
-                          crossOrigin="anonymous"
-                        />
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
-
-              <hr className="" />
-              {success || checkPay.status === 1 ? (
-                <div className=" flex gap-2  w-full sm:w-[200px] mt-5">
-                  <Button
-                    className="w-full justify-center items-center text-base font-normal mb-0"
-                    size="sm"
-                    style={{
-                      backgroundImage:
-                        "linear-gradient(150deg, rgba(162,102,246,1) 10.8%, rgba(203,159,249,1) 94.3%)",
-                    }}
-                    onClick={() => router.push("/user/mycourse")}
-                  >
-                    ไปที่คอร์สเรียนของคุณ
-                  </Button>
-                </div>
-              ) : (
-                <div className=" flex gap-2 w-full sm:w-[150px] mt-3 ">
-                  <Button
-                    className="w-full justify-center items-center text-base font-normal mb-0"
-                    size="sm"
-                    style={{
-                      backgroundImage:
-                        "linear-gradient(150deg, rgba(162,102,246,1) 10.8%, rgba(203,159,249,1) 94.3%)",
-                    }}
-                    onClick={handleSubmit}
-                  >
-                    สั่งซื้อคอร์สเรียนนี้
-                  </Button>
-                </div>
-              )}
-              <small className="text-red-700 mt-1">
-                ** เราใช่ระบบตรวจจับสลิปโอนเงิน กรุณาตรวจสอบให้ถูกต้องก่อนโอน
-              </small>
-            </div>
-          ) : (
-            ""
+          {paymentPage === 1 && (
+            <PaymentQrcode
+              show={show}
+              setShow={setShow}
+              buyData={buyData}
+              loading={loading}
+              setLoading={setLoading}
+              fetchDataMyPay={fetchDataMyPay}
+              imageQrCode={imageQrCode}
+              loadingQrcode={loadingQrcode}
+              checkPay={checkPay}
+            />
           )}
+          {paymentPage === 2 && <PaymentCreditCard setLoading={setLoading} buyData={buyData}  />}
         </Card>
       </div>
     </div>
