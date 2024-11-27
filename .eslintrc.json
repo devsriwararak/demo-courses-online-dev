@@ -1,3 +1,7 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next/core-web-vitals", 
+  "rules": {
+        "react-hooks/rules-of-hooks": "error", // ตรวจสอบการใช้ Hooks
+        "react-hooks/exhaustive-deps": "warn"  // เตือนกรณี Dependency ใน useEffect ไม่ครบ
+    }
 }

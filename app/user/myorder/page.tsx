@@ -1,7 +1,7 @@
 import MyOrder from '@/app/components/user/myorder'
 import React from 'react'
 
-const page = () => {
+const Page = () => {
   return (
     <div>
         <MyOrder />
@@ -9,4 +9,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

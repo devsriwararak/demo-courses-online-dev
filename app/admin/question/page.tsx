@@ -3,7 +3,7 @@ import Questions from '@/app/components/admin/questions'
 import LayoutContent from '@/app/components/layout/layoutContent'
 import React, { useState } from 'react'
 
-const page = () => {
+const Page = () => {
 
   return (
     <div>    
@@ -13,4 +13,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

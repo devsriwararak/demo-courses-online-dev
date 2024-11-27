@@ -5,7 +5,7 @@ import React from 'react'
 import { MdCancel } from "react-icons/md";
 
 
-const page = () => {
+const Page = () => {
   return (
     <div className="my-20   mx-auto container w-1/2 ">
       <Card>
@@ -28,4 +28,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

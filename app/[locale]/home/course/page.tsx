@@ -1,7 +1,7 @@
 import React from 'react'
 import MainCourse from '@/app/components/home/maincourse'
 
-const page = () => {
+const Page = () => {
   return (
     <div>
        <MainCourse />
@@ -9,6 +9,6 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
 
 
