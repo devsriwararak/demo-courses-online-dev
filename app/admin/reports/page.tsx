@@ -35,67 +35,11 @@ const TABLE_HEAD = [
   "คอร์สเรียน",
   "วันที่ซื้อ",
   "วันหมดอายุ",
+  "ประเภท",
   "สถานะ",
   "สลิปโอนเงิน",
 ];
 
-// const TABLE_ROWS = [
-//   {
-//     name: "John Michael",
-//     job: "Manager",
-//     date: "23/04/18",
-//   },
-//   {
-//     name: "Alexa Liras",
-//     job: "Developer",
-//     date: "23/04/18",
-//   },
-//   {
-//     name: "Laurent Perrier",
-//     job: "Executive",
-//     date: "19/09/17",
-//   },
-//   {
-//     name: "Michael Levi",
-//     job: "Developer",
-//     date: "24/12/08",
-//   },
-//   {
-//     name: "Richard Gran",
-//     job: "Manager",
-//     date: "04/10/21",
-//   },
-//   {
-//     name: "Richard Gran",
-//     job: "Manager",
-//     date: "04/10/21",
-//   },
-//   {
-//     name: "Richard Gran",
-//     job: "Manager",
-//     date: "04/10/21",
-//   },
-//   {
-//     name: "Richard Gran",
-//     job: "Manager",
-//     date: "04/10/21",
-//   },
-//   {
-//     name: "Richard Gran",
-//     job: "Manager",
-//     date: "04/10/21",
-//   },
-//   {
-//     name: "Richard Gran",
-//     job: "Manager",
-//     date: "04/10/21",
-//   },
-//   {
-//     name: "Richard Gran",
-//     job: "Manager",
-//     date: "04/10/21",
-//   },
-// ];
 
 const Page = () => {
   const dateNow2 = moment(Date.now()).format("YYYY-MM-DD");
@@ -253,6 +197,9 @@ const Page = () => {
                 color="purple"
               />
             </div>
+
+       
+
             <Button
               color="purple"
               size="sm"
@@ -271,7 +218,7 @@ const Page = () => {
                   size={40}
                 />
               </div>
-              <h3 className="mt-3 text-2xl">{dataHeader.totalSales} ฿</h3>
+              <h3 className="mt-3 text-2xl">{Number(dataHeader.totalSales).toLocaleString()} ฿</h3>
             </section>
             <section className="w-full bg-white rounded-md shadow-lg px-4 py-5">
               <div className="flex flex-row items-center justify-between">
@@ -281,7 +228,7 @@ const Page = () => {
                   size={40}
                 />
               </div>
-              <h3 className="mt-3 text-2xl">{dataHeader.salesWithinDate} ฿</h3>
+              <h3 className="mt-3 text-2xl">{Number(dataHeader.salesWithinDate).toLocaleString()} ฿</h3>
             </section>
             <section className="w-full bg-white rounded-md shadow-lg px-4 py-5">
               <div className="flex flex-row items-center justify-between">
@@ -291,7 +238,7 @@ const Page = () => {
                   size={40}
                 />
               </div>
-              <h3 className="mt-3 text-2xl">{dataHeader.customerCount} ท่าน</h3>
+              <h3 className="mt-3 text-2xl">{Number(dataHeader.customerCount).toLocaleString()} ท่าน</h3>
             </section>
           </div>
         </section>
@@ -322,7 +269,7 @@ const Page = () => {
                   ราคา :
                 </label>
                 <p className="text-gray-700">
-                  {dataHeader.topCourse.product_price}
+                  {Number(dataHeader.topCourse.product_price).toLocaleString()} บาท
                 </p>
               </div>
             </section>
@@ -392,7 +339,7 @@ const Page = () => {
                 {dataPay.map((item: any, index: number) => {
                   const isLast = index === dataPay.length - 1;
                   const classes = isLast
-                    ? "p-4"
+                    ? "p-4 text-sm"
                     : "p-4 border-b border-blue-gray-50";
 
                   return (
@@ -434,6 +381,16 @@ const Page = () => {
                         </Typography>
                       </td>
                       <td className={classes}>
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {item.type === 1 && "QR Code"}
+                          {item.type === 2 && "Credit Card"}
+                        </Typography>
+                      </td>
+                      <td className={classes}>
                         <p
                           className={`text-sm text-center px-2 rounded-md ${
                             item.status === 0
@@ -446,9 +403,9 @@ const Page = () => {
                       </td>
                       <td className={classes}>
                         <button
-                          disabled={item.status === 0}
+                          disabled={item.status === 0 || item.type === 2}
                           className={`${
-                            item.status === 0
+                            item.status === 0 || item.type === 2
                               ? "bg-gray-400 "
                               : "bg-purple-400 hover:bg-purple-600"
                           } text-white text-xs px-2 py-1 rounded-md`}

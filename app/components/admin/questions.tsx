@@ -45,7 +45,7 @@ interface OptionType {
 
 interface QuestionProps {}
 
-const Questions: React.FC<QuestionProps> = ({}) => {
+const Questions: React.FC<QuestionProps> = () => {
   const [dataSelect, setDataSelect] = useState<OptionType[]>([]);
   const [dataRequest, setDataRequest] = useState<OptionType[]>([]);
   const [selectedOption, setSelectedOption] = useState<OptionType | null>(null);
@@ -508,9 +508,9 @@ const Questions: React.FC<QuestionProps> = ({}) => {
             <table className="w-full min-w-max table-auto text-left">
               <thead>
                 <tr>
-                  {TABLE_HEAD.map((head) => (
+                  {TABLE_HEAD.map((head, index) => (
                     <th
-                      key={head}
+                      key={index}
                       className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
                     >
                       <Typography
@@ -532,7 +532,7 @@ const Questions: React.FC<QuestionProps> = ({}) => {
                     : "p-3 border-b border-blue-gray-50 text-center ";
 
                   return (
-                    <tr key={item.id} className="hover:bg-gray-100">
+                    <tr key={item.id || index} className="hover:bg-gray-100">
                       <td className={classes}>
                         <Typography
                           variant="small"

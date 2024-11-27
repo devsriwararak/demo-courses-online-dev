@@ -30,7 +30,7 @@ const BuyCourse = () => {
   const [bill, setBill] = useState("");
   const [payId, setPayId] = useState("");
   const [success, setSuccess] = useState(false);
-  const [loading, setLoading] = useState("กำลังตรวจสอบ...");
+  const [loading, setLoading] = useState("");
 
   const [loadingQrcode, setLoadingQrcode] = useState(false);
   const [file, setFile] = useState(null);
@@ -41,6 +41,10 @@ const BuyCourse = () => {
     id: "",
     code: "",
     status: "",
+    price: "",
+    start_pay: "",
+    end_pay: "",
+    type: "",
   });
   const [paymentPage, setPaymentPage] = useState(0);
   const [paymentSelect, setPaymentSelect] = useState(0);
@@ -88,7 +92,7 @@ const BuyCourse = () => {
           : res.data.products_price;
 
         setBuyData(res.data);
-        
+
         setTimeout(() => {
           fetchDataMyPay(price);
         }, 2000);
@@ -101,7 +105,7 @@ const BuyCourse = () => {
     }
   };
 
-  const fetchDataMyPay = async (price:number) => {
+  const fetchDataMyPay = async (price: number) => {
     try {
       const sendData = {
         products_id: id,
@@ -122,22 +126,33 @@ const BuyCourse = () => {
 
       if (res.status === 200) {
         setLoadingQrcode(true);
-        await fetchDataCreateQrCode(price);
+        if (res.data.type === 1) {
+          await fetchDataCreateQrCode(price);
+        }
+
+        console.log(res.data);
 
         setCheckPay({
           id: res.data.id,
           code: res.data.code,
           status: res.data.status,
+          price: res.data.price,
+          start_pay: res.data.start_pay,
+          end_pay: res.data.end_pay,
+          type: res.data.type,
         });
 
         if (res.data.id) {
           setLoading("");
           setShow(true);
           setPaymentSelect(res.data.type);
-
-          // await
         } else {
           setShow(false);
+        }
+
+        if (res.data.status === 1) {
+          setLoading("ทำรายการซื้อแล้ว !");
+        } else {
           setLoading("ยังไม่ทำรายการซื้อ");
         }
       }
@@ -181,9 +196,6 @@ const BuyCourse = () => {
     <div className="flex flex-col w-full justify-center items-center  lg:flex-row gap-5 py-0 lg:py-10 px-3 lg:px-36   ">
       <ToastContainer autoClose={2000} theme="colored" />
       <ModalHowToPay open={open} handleOpen={handleOpen} />
-      {/* <h1>SHOW : {JSON.stringify(show)}</h1>
-      <h1>paymentSelect : {paymentSelect}</h1> */}
-
       <div className="w-full md:w-3/5 ">
         <Card className="lg:h-[550px] w-full overflow-auto gap-5 !bg-white  ">
           <div className="w-full flex justify-center bg-gray-300 rounded-sm   ">
@@ -273,50 +285,48 @@ const BuyCourse = () => {
           </div>
         </Card>
       </div>
-
       <div className="w-full md:w-2/5  ">
         <Card className="lg:h-[550px] w-full overflow-auto gap-5 px-6 py-4">
           <div className="flex flex-col lg:flex-row gap-4 ">
             <div className="w-full lg:w-2/3 flex gap-4 ">
-              {/* <Button
-                className="w-full justify-center items-center text-base font-normal mb-0"
-                size="sm"
-              
-                onClick={handleCheck}
-                disabled={checkPay.id}
-              >
-                ทำรายการซื้อ
-              </Button> */}
-              <button
-                className={`${paymentPage === 1 ? "bg-gray-300" : "bg-gray-100"} border-2 border-gray-300 rounded-md  hover:bg-gray-200 disabled:bg-gray-800  disabled:text-gray-300`}
-                onClick={() => setPaymentPage(1)}
-                disabled={paymentSelect === 2}
-              >
-                <Image
-                  src="/payment_qrcode.webp"
-                  alt=""
-                  width={300}
-                  height={300}
-                />
-                <p className="text-sm  hover:text-black hover:font-semibold">
-                  QR CODE {paymentSelect}
-                </p>
-              </button>
-              <button
-                className={`${paymentPage === 2 ? "bg-gray-300" : "bg-gray-100"} border-2 border-gray-300 rounded-md  hover:bg-gray-200 disabled:bg-gray-800  disabled:text-gray-700`}
-                onClick={() => setPaymentPage(2)}
-                disabled={paymentSelect === 1}
-              >
-                <Image
-                  src="/payment_visa.webp"
-                  alt=""
-                  width={300}
-                  height={300}
-                />
-                <p className="text-sm hover:text-black hover:font-semibold  ">
-                  CREDIT CARD
-                </p>
-              </button>{" "}
+              {loading && (
+                <>
+                  <button
+                    className={`${
+                      paymentPage === 1 ? "bg-gray-300" : "bg-gray-100"
+                    } border-2 border-gray-300 rounded-md  hover:bg-gray-200 disabled:bg-gray-800  disabled:text-gray-300`}
+                    onClick={() => setPaymentPage(1)}
+                    disabled={paymentSelect === 2}
+                  >
+                    <Image
+                      src="/payment_qrcode.webp"
+                      alt=""
+                      width={300}
+                      height={300}
+                    />
+                    <p className="text-sm  hover:text-black hover:font-semibold">
+                      QR CODE {paymentSelect}
+                    </p>
+                  </button>
+                  <button
+                    className={`${
+                      paymentPage === 2 ? "bg-gray-300" : "bg-gray-100"
+                    } border-2 border-gray-300 rounded-md  hover:bg-gray-200 disabled:bg-gray-800  disabled:text-gray-700`}
+                    onClick={() => setPaymentPage(2)}
+                    disabled={paymentSelect === 1}
+                  >
+                    <Image
+                      src="/payment_visa.webp"
+                      alt=""
+                      width={300}
+                      height={300}
+                    />
+                    <p className="text-sm hover:text-black hover:font-semibold  ">
+                      CREDIT CARD
+                    </p>
+                  </button>
+                </>
+              )}
             </div>
 
             <div className="w-full flex flex-col gap-3  justify-center items-center lg:w-1/3 ">
@@ -327,7 +337,18 @@ const BuyCourse = () => {
               >
                 วิธีการชำระเงิน
               </Button>
-              {loading && <p className="text-sm">{loading}</p>}
+              {loading && (
+                <div
+                  className={` ${
+                    loading === "ทำรายการซื้อแล้ว !"
+                      ? "border-l-4 border-l-green-400 "
+                      : "border-l-4 border-l-red-500"
+                  } shadow-md rounded-sm px-2 py-1 border border-gray-300 `}
+                >
+                  {" "}
+                  <p className="text-sm">{loading}</p>
+                </div>
+              )}
             </div>
           </div>
 
@@ -346,7 +367,13 @@ const BuyCourse = () => {
               checkPay={checkPay}
             />
           )}
-          {paymentPage === 2 && <PaymentCreditCard setLoading={setLoading} buyData={buyData}  />}
+          {paymentPage === 2 && (
+            <PaymentCreditCard
+              setLoading={setLoading}
+              buyData={buyData}
+              checkPay={checkPay}
+            />
+          )}
         </Card>
       </div>
     </div>

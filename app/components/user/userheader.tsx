@@ -210,7 +210,7 @@ export function UserHeader() {
                 </Button>
               ) : (
                 <HeaderButton href="/login" variant="gradient">
-                  เข้าสู่ระบบ
+                  เข้าสู่ระบบ {JSON.stringify(login)}
                 </HeaderButton>
               )}
             </div>
