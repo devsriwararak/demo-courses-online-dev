@@ -86,7 +86,7 @@ export default function Page() {
 
           <div className="flex flex-col lg:flex-row gap-6 justify-center items-center mt-10 text-black">
             {results.map((item: any) => (
-              <div className=" bg-gray-300 rounded-lg px-6 py-8 w-full">
+              <div className=" bg-gray-300 rounded-lg px-6 py-8 w-full" key={item.id}>
                 <h3 className="text-xl">{item.title}</h3>
 
                 <p className="text-gray-700 mt-2">{item.dec}</p>
