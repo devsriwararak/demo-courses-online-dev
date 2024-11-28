@@ -151,12 +151,12 @@ const LoginOTPPage: React.FC = () => {
             <div className="flex flex-col w-full  ">
               <div>
                 <Typography className=" font-medium text-3xl ">
-                  DEV SRIWARARAK (OTP)
+                  เข้าสู่ระบบ (OTP)
                 </Typography>
               </div>
               <div>
                 <Typography className=" mt-3 text-sm font-medium text-gray-500">
-                  ระบบห้องเรียน Online
+                  ระบบห้องเรียน Online แจ้งรหัสผ่าน Email
                 </Typography>
               </div>
             </div>

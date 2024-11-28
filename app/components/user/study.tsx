@@ -9,6 +9,8 @@ import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 import { IoPlaySkipBackOutline } from "react-icons/io5";
 import Image from "next/image";
+import { FaCirclePlay } from "react-icons/fa6";
+
 
 interface PageProps {
   params: {
@@ -133,11 +135,11 @@ const Study: React.FC<PageProps> = ({ params }) => {
                 <li
                   onClick={() => handleClick(item.title_id)}
                   key={item.title_id}
-                  className={`pt-3 pb-3 px-4 hover:bg-gray-200  rounded-md cursor-pointer ${
+                  className={`pt-3 pb-3 px-4 hover:bg-gray-200  rounded-md cursor-pointer flex gap-2 items-center ${
                     activeTitle == item.title_id && "bg-gray-300"
                   }`}
                 >
-                  {index + 1}. {item.title}
+                 <FaCirclePlay className="text-indigo-200 hover:text-indigo-500" size={20}  />  {item.title}
                 </li>
               ))}
             </ul>
@@ -272,13 +274,13 @@ export const ShowVideo = ({ id }: { id: number }) => {
   }, [id]);
 
   return (
-    <div>
+    <div className=" rounded-md">
       {/* <p>Video ID: {id} </p>
       <p>Video path: {videoData} </p> */}
       {videoData ? (
         <video
           controls
-          className="w-full custom-video "
+          className="w-full custom-video rounded-md "
           controlsList="nodownload"
           key={videoData}
           onContextMenu={(e) => e.preventDefault()}

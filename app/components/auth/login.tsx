@@ -87,10 +87,6 @@ const LoginPage: React.FC = () => {
             }
           }
 
-          console.log("Status:", status);
-console.log("Redirect Path:", redirectPath);
-console.log("User ID:", userId);
-console.log("Number:", number);
 
           setTimeout(() => {
             router.push(redirectPath);
@@ -110,12 +106,12 @@ console.log("Number:", number);
 
   
   return (
-    <div className="bg-gray-200 h-screen flex   justify-center items-center  px-10 md:px-64">
+    <div className="bg-gray-200 h-screen flex   justify-center items-center  px-10 md:px-64 ">
     <ToastContainer autoClose={3000} theme="colored" />
-    <div className="bg-white rounded-3xl shadow-xl  flex flex-col lg:flex-row  ">
+    <div className="bg-white rounded-3xl shadow-xl  flex flex-col lg:flex-row   ">
       <Template />
 
-      <div className="w-full lg:w-3/4 ">
+      <div className="w-full  lg:w-3/4 ">
         <div className="flex flex-row w-full items-center gap-3  justify-end py-4 px-8">
           <p className="text-gray-600 text-xs">
             สมัครสมาชิกเพื่อซื้อคอร์สเรียน
@@ -131,8 +127,8 @@ console.log("Number:", number);
         <div className="flex flex-col  gap-6 py-6 md:py-10 md:pb-14 px-8 md:px-16  ">
           <div className="flex flex-col w-full  ">
             <div>
-              <Typography className=" font-medium text-3xl ">
-                DEV SRIWARARAK
+              <Typography className=" font-medium text-2xl ">
+                Nang Fah Pa Trade-นางฟ้าพาเทรดForex
               </Typography>
             </div>
             <div>

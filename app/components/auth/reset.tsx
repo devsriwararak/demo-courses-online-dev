@@ -104,7 +104,7 @@ const Reset: React.FC = () => {
             <div className="flex flex-col w-full  ">
               <div>
                 <Typography className=" font-medium text-3xl ">
-                  DEV SRIWARARAK (ลืมรหัสผ่าน)
+                  ลืมรหัสผ่าน
                 </Typography>
               </div>
               <div>
